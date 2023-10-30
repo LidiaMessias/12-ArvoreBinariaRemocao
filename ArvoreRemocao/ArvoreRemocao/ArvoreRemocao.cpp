@@ -195,12 +195,12 @@ void exibirElementosArvore(NO* no)
 void buscarElementoArvore(NO* no, int valor)
 {
 	if (no == NULL) {
-		cout << "Elemento nao encontrado \n";
+		cout << "Elemento nao encontrado! \n";
 		return;
 	}
 
 	if (no->valor == valor) {
-		cout << "Elemento encontrado \n";
+		cout << "Elemento ja existe na arvore! \n";
 		return;
 	}
 
@@ -246,16 +246,53 @@ void removerElementoArvore(NO* no, int valor) {
 		return;
 	}
 
-
 	// caso 1: sem filhos	
+	NO* paraExcluir = atual; 
+	if (pai == NULL && paraExcluir->dir == NULL && paraExcluir->esq == NULL) {
+		cout << "Elemento excluido com sucesso! \n";
+		free(paraExcluir);
+		raiz = NULL;
+		return;
+	}
+	else if (paraExcluir->dir == NULL && paraExcluir->esq == NULL) { 
+		pai->dir = NULL;
+		pai->esq = NULL;
+		free(paraExcluir); 
+		cout << "Elemento excluido com sucesso! \n";
+		return;
+	}
 	
-
 	// caso 2: um filho	
-	
+
+	else if (paraExcluir->dir == NULL && pai->valor < paraExcluir->valor) { 
+		pai->dir = paraExcluir->esq; 
+		free(paraExcluir); 
+		cout << "Elemento excluido com sucesso! \n";
+		return;
+	}
+	else if (paraExcluir->dir == NULL && pai->valor > paraExcluir->valor) { 
+		pai->esq = paraExcluir->esq; 
+		free(paraExcluir); 
+		cout << "Elemento excluido com sucesso! \n";
+		return;
+	}
+	else if (paraExcluir->esq == NULL && pai->valor < paraExcluir->valor) { 
+		pai->dir = paraExcluir->dir; 
+		free(paraExcluir); 
+		cout << "Elemento excluido com sucesso! \n";
+		return;
+	}
+	else if (paraExcluir->esq == NULL && pai->valor > paraExcluir->valor) { 
+		pai->esq = paraExcluir->dir; 
+		free(paraExcluir); 
+		cout << "Elemento excluido com sucesso! \n";
+		return;
+	}
+
 
 	// caso 3: dois filhos
 
-	// procura o elmento mais a esquerda da sub-arvore da direita
+	// procura o elemento mais a esquerda da sub-arvore da direita
 	NO* sucessor = atual->dir;
 	NO* paiSucessor = atual;
 	while (sucessor->esq != NULL) {
@@ -277,7 +314,9 @@ void removerElementoArvore(NO* no, int valor) {
 	}
 
 	//libera memoria
-	free(sucessor);
+	free(paraExcluir);
+	free(sucessor); 
+	cout << "Elemento excluido com sucesso! \n";
 
 
 }
